@@ -1,17 +1,9 @@
 from django.db import models
-from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
-from django.contrib.contenttypes.models import ContentType
-from usuarios.models import Usuario, Actividad  # Importa el modelo Usuario
+from django.contrib.contenttypes.fields import GenericRelation
+from actividades.models import Actividad
+from calificaciones.models import CalificacionGenerica
+from menus.models import Menu
 
-class CalificacionGenerica(models.Model):
-    usuario = models.ForeignKey('usuarios.Usuario', on_delete=models.CASCADE)  # Usuario que califica
-    puntuacion = models.IntegerField()  # Calificación dada por el usuario
-    fecha = models.DateField(auto_now_add=True)  # Fecha de la calificación
-
-    # Campos para GenericForeignKey
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)  # Tipo de entidad
-    object_id = models.PositiveIntegerField()  # ID de la entidad
-    content_object = GenericForeignKey('content_type', 'object_id')  # Objeto calificado
 
 # Create your models here.
 class Venue(models.Model):
@@ -21,26 +13,10 @@ class Venue(models.Model):
     calificacion = models.FloatField(default=0.0)  # Promedio de calificaciones
     latitud = models.CharField(max_length=255)
     longitud = models.CharField(max_length=255)
+    menu = models.ForeignKey(Menu, on_delete=models.CASCADE, null=True, blank=True)  # Permitir que sea nulo
     calificaciones = GenericRelation(CalificacionGenerica)  # Relación con calificaciones
 
-class MenuItem(models.Model):
-    nombre = models.CharField(max_length=100)  # Nombre del elemento
-    precio = models.DecimalField(max_digits=10, decimal_places=2)  # Precio del elemento
-    foto = models.ImageField(upload_to='items/')  # Foto del elemento
-    descripcion = models.TextField(blank=True, null=True)  # Descripción opcional del elemento
-    calificaciones = GenericRelation(CalificacionGenerica)  # Relación con calificaciones
 
-class Menu(models.Model):
-    comercio = models.ForeignKey(Venue, on_delete=models.CASCADE)
-    menu_items = models.ManyToManyField(MenuItem, related_name='menus')  # Agregado related_name
-
-class Evento(models.Model):
-    comercio = models.ForeignKey(Venue, on_delete=models.CASCADE)
-    fecha = models.DateField(auto_now_add=True)  # El momento de creación de cada evento
-    nombre = models.CharField(max_length=100)  # Nombre del evento
-    invitados = models.ManyToManyField(Usuario, related_name='eventos_invitados')  # Cambiado a 'Usuario'
-    asistentes = models.ManyToManyField(Usuario, related_name='eventos_asistentes')  # Cambiado a 'Usuario'
-    calificaciones = GenericRelation(CalificacionGenerica)  # Relación con calificaciones
 
 class Promocion(models.Model):
     TIPO_PROMOCION = [
