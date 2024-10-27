@@ -3,10 +3,11 @@ from django.contrib.contenttypes.fields import GenericRelation
 from actividades.models import Actividad
 from calificaciones.models import CalificacionGenerica
 from menus.models import Menu
-
+import uuid
 
 # Create your models here.
 class Venue(models.Model):
+    venue_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     nombre = models.CharField(max_length=100)
     actividades = models.ManyToManyField(Actividad, related_name="venues")
     tipo = models.CharField(max_length=100)  # Tipo de comercio (cultural venue)
@@ -19,6 +20,7 @@ class Venue(models.Model):
 
 
 class Promocion(models.Model):
+    promocion_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     TIPO_PROMOCION = [
         ('rebaja', 'Rebaja'),
         ('combo', 'Combo'),

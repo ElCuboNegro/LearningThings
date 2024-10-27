@@ -1,0 +1,148 @@
+<testsuite name="features.usuario.Gestión de Usuarios" tests="3" errors="3" failures="0" skipped="0" time="0.005991" timestamp="2024-10-27T15:14:28.419395" hostname="JALBAN-NB"><testcase classname="features.usuario.Gestión de Usuarios" name="Asignar un username automáticamente" status="error" time="0.001"><error type="Exception" message="Guardado rechazado, genero no válido">
+<![CDATA[
+Failing step: Given que tengo un usuario sin username ... error in 0.001s
+Location: tests/acceptance/features/usuario.feature:6
+Traceback (most recent call last):
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\behave\model.py", line 1909, in run
+    match.run(runner.context)
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\behave\matchers.py", line 104, in run
+    self.func(context, *args, **kwargs)
+  File "tests\acceptance\steps\steps.py", line 12, in step_impl
+    context.usuario = Usuario()  # Crea un nuevo usuario con nombre y género
+                      ^^^^^^^^^
+  File "C:\Users\jalba\Desktop\LearningThings\usuarios\models.py", line 88, in __init__
+    raise Exception("Guardado rechazado, genero no válido")
+Exception: Guardado rechazado, genero no válido
+]]>
+</error><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Asignar un username automáticamente
+    Given que tengo un usuario sin username ... error in 0.001s
+    When guardo el usuario ... skipped in 0.000s
+    Then el username debe ser NO NULL ... skipped in 0.000s
+    And el username debe ser igual al ID del usuario ... skipped in 0.000s
+    And el user_first_name debe ser null ... undefined in 0.000s
+    And el user_last_name debe ser null ... undefined in 0.000s
+    And el genero del usuario debe ser null ... skipped in 0.000s
+    And la foto de perfil debe ser null ... skipped in 0.000s
+    And la fecha de creación debe ser la fecha actual ... skipped in 0.000s
+    And la fecha de modificación debe ser la fecha actual ... skipped in 0.000s
+    And la fecha de eliminación debe ser null ... skipped in 0.000s
+    And el estado civil debe ser null ... skipped in 0.000s
+    And la fecha de nacimiento debe ser null ... skipped in 0.000s
+    And el tipo de 16 personalidades A debe ser null ... skipped in 0.000s
+    And el tipo de 16 personalidades B debe ser null ... skipped in 0.000s
+    And el tipo de 16 personalidades C debe ser null ... skipped in 0.000s
+    And el tipo de 16 personalidades D debe ser null ... skipped in 0.000s
+    And la fecha del último evento debe ser null ... skipped in 0.000s
+    And el "spontime activo" debe ser false ... skipped in 0.000s
+    And el "actividades spontime activo" debe ser un array vacío ... skipped in 0.000s
+    And la reputación debe ser 0 ... skipped in 0.000s
+    And los gustos de actividades deben ser un array vacío ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="features.usuario.Gestión de Usuarios" name="Crear un nuevo usuario" status="error" time="0.004001"><error type="IntegrityError" message="NOT NULL constraint failed: usuarios_usuario.user_id">
+<![CDATA[
+Failing step: Given que tengo un usuario con el nombre "Juan" y el género "masculino" ... error in 0.004s
+Location: tests/acceptance/features/usuario.feature:31
+Traceback (most recent call last):
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: NOT NULL constraint failed: usuarios_usuario.user_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\behave\model.py", line 1909, in run
+    match.run(runner.context)
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\behave\matchers.py", line 104, in run
+    self.func(context, *args, **kwargs)
+  File "tests\acceptance\steps\steps.py", line 104, in step_impl
+    context.usuario.save()
+  File "C:\Users\jalba\Desktop\LearningThings\usuarios\models.py", line 75, in save
+    super().save(*args, **kwargs)  # Llamar al método save de la clase base
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\db\models\base.py", line 814, in save
+    self.save_base(
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\db\models\base.py", line 877, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\db\models\base.py", line 1020, in _save_table
+    results = self._do_insert(
+              ^^^^^^^^^^^^^^^^
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\db\models\base.py", line 1061, in _do_insert
+    return manager._insert(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\db\models\query.py", line 1805, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\db\models\sql\compiler.py", line 1822, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: NOT NULL constraint failed: usuarios_usuario.user_id
+]]>
+</error><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Crear un nuevo usuario
+    Given que tengo un usuario con el nombre "Juan" y el género "masculino" ... error in 0.004s
+    When guardo el usuario ... skipped in 0.000s
+    Then el usuario debe ser creado con el nombre "Juan" ... skipped in 0.000s
+    And el genero debe ser "masculino" ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="features.usuario.Gestión de Usuarios" name="Crear un nuevo usuario con un nombre parecido a un uuid" status="error" time="0.000991"><error type="Exception" message="Guardado rechazado, genero no válido">
+<![CDATA[
+Failing step: Given que tengo un usuario con un nombre parecido a un uuid ... error in 0.001s
+Location: tests/acceptance/features/usuario.feature:37
+Traceback (most recent call last):
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\behave\model.py", line 1909, in run
+    match.run(runner.context)
+  File "C:\Users\jalba\AppData\Local\Programs\Python\Python312\Lib\site-packages\behave\matchers.py", line 104, in run
+    self.func(context, *args, **kwargs)
+  File "tests\acceptance\steps\steps.py", line 16, in step_impl
+    context.usuario = Usuario(username=str(uuid.uuid4())[:8])  # Crea un usuario con un nombre que se parece a un uuid
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jalba\Desktop\LearningThings\usuarios\models.py", line 88, in __init__
+    raise Exception("Guardado rechazado, genero no válido")
+Exception: Guardado rechazado, genero no válido
+]]>
+</error><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Crear un nuevo usuario con un nombre parecido a un uuid
+    Given que tengo un usuario con un nombre parecido a un uuid ... error in 0.001s
+    When guardo el usuario ... skipped in 0.000s
+    Then debe rechazarse el guardado ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

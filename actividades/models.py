@@ -1,11 +1,14 @@
 from django.db import models
 from django.utils import timezone
+import uuid
 
 class Tag(models.Model):
+    tag_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField()
 
 class Actividad(models.Model):
+    actividad_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField(null=True, blank=True)
     imagen = models.ImageField(upload_to='actividades/', null=True, blank=True)

@@ -4,7 +4,10 @@ from eventos.models import Evento
 from comercios.models import Venue
 from menus.models import MenuItem
 from promociones.models import Promocion
+import uuid
+
 class Pedido(models.Model):
+    pedido_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     evento = models.ForeignKey(Evento, on_delete=models.CASCADE, null=True, blank=True)
     venue = models.ForeignKey(Venue, on_delete=models.CASCADE)

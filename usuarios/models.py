@@ -1,10 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from actividades.models import Actividad
+import uuid
 
 
 # Create your models here.
-class Usuario(models.Model):
+class Usuario(User):
+    # Genero del usuario
     GENERO_USUARIO = [
         ('masculino', 'Masculino'),
         ('femenino', 'Femenino'),
@@ -40,8 +42,8 @@ class Usuario(models.Model):
         ('calificador', 'calificador'),
         ('perceptivo', 'Perceptivo'),
     ]
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    username = models.CharField(max_length=100, unique=True, blank=True)  # Nombre de usuario único, inicialmente vacío
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='usuario_perfil')  # Cambiar el related_name
+    user_first_name = models.CharField(max_length=100, blank=True)
     foto_perfil = models.ImageField(upload_to='usuarios/', null=True, blank=True)  # Foto de perfil del usuario
     fecha_creacion = models.DateField(auto_now_add=True)
     fecha_modificacion = models.DateField(auto_now=True)
@@ -64,10 +66,26 @@ class Usuario(models.Model):
     gustos_actividades = models.ManyToManyField(Actividad, through='GustoActividad', related_name='usuarios_gustos')
 
     def save(self, *args, **kwargs):
-        # Asignar el username como el id del usuario si está vacío
+        # Si el username es null, se asigna el id del usuario, PERO si el username ESCRITO POR EL USUARIO es un uuid, se rechaza el guardado
+        if self.username == str(uuid.uuid4())[:8]:
+            raise Exception("Guardado rechazado")
         if not self.username:
-            self.username = str(self.user.id)  # Convertir el id a string
+            self.username = str(self.id)  # Convertir el id a string
         super().save(*args, **kwargs)  # Llamar al método save de la clase base
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not self.username:
+            self.username = str(self.id)  # Convertir el id a string
+        if kwargs.get('user_first_name') == str(uuid.uuid4())[:8]:
+            raise Exception("Guardado rechazado, usuario con nombre parecido a un uuid")
+        else:
+            self.user_first_name = kwargs.get('user_first_name')
+        if kwargs.get('genero') in [choice[0] for choice in self.GENERO_USUARIO]:
+            self.genero = kwargs.get('genero')
+        else:
+            raise Exception("Guardado rechazado, genero no válido")
+        
 
 class Login(models.Model):
     TIPO_DISPOSITIVO = [
